@@ -29,6 +29,8 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(TEST_OUTPUT_PATH ${CMAKE_BINARY_DIR}/test)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 set(LAMURE_CONFIG_DIR ${CMAKE_BINARY_DIR})
+set(VULKAN_SDK_ROOT "$ENV{VULKAN_SDK}" CACHE PATH "Set path to your VulkanSDK")
+
 
 option (LAMURE_USE_CGAL_FOR_NNI "Set to enable CGAL library for natural neighbor interpolation. NNI will not work without CGAL." ON)
 
@@ -139,6 +141,18 @@ if (${LAMURE_USE_CGAL_FOR_NNI})
 else()
   # include NNI alternative here
 endif (${LAMURE_USE_CGAL_FOR_NNI})
+
+############################################################
+# Vulkan
+############################################################
+find_package(Vulkan REQUIRED)
+include_directories(${VULKAN_INCLUDE_DIR})
+
+include_directories(${VULKAN_SDK_ROOT}/include)
+
+# SPIRV-Cross
+include_directories(${Vulkan_DIR}/source/spirv-cross)
+
 
 ############################################################
 # Build 3rd-party
